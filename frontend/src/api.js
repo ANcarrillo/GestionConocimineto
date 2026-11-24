@@ -31,7 +31,8 @@ function mensajeError(datos, status) {
 }
 
 async function solicitar(ruta, { method = 'GET', body, params, form, archivo } = {}) {
-  const url = new URL(API_URL + ruta)
+  // API_URL puede ser absoluta (http://localhost:8000) o relativa (/api, detrás de Nginx en Docker)
+  const url = new URL(API_URL + ruta, window.location.origin)
   Object.entries(params || {}).forEach(([k, v]) => {
     if (v !== undefined && v !== null && v !== '') url.searchParams.set(k, v)
   })

@@ -1,0 +1,36 @@
+# Producción (servidor en internet). Se usa junto con docker-compose.yml:
+#   docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+#
+# Diferencias con el despliegue local:
+#   - Caddy delante de la web con HTTPS automático (certificado gratuito de Let's Encrypt)
+#   - La base de datos, la API y Nginx NO se publican: solo Caddy (puertos 80 y 443)
+services:
+  db:
+    ports: !reset []
+
+  backend:
+    ports: !reset []
+    environment:
+      CORS_ORIGINS: https://${DOMINIO:?Defina DOMINIO en el archivo .env}
+
+  frontend:
+    ports: !reset []
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    depends_on:
+      - frontend
+    environment:
+      DOMINIO: ${DOMINIO}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_datos:/data
+      - caddy_config:/config
+
+volumes:
+  caddy_datos:
+  caddy_config:
