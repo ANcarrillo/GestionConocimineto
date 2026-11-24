@@ -6,7 +6,10 @@
 #   - La base de datos, la API y Nginx NO se publican: solo Caddy (puertos 80 y 443)
 services:
   db:
-    ports: !reset []
+    # Solo dentro del servidor (127.0.0.1): no se ve desde internet, pero permite
+    # conectarse desde el PC con un túnel SSH para entrenar modelos (ml/entrenar_servidor.ps1)
+    ports: !override
+      - "127.0.0.1:5432:5432"
 
   backend:
     ports: !reset []
