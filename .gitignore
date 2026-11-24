@@ -1,0 +1,24 @@
+# Entornos y dependencias
+.venv/
+node_modules/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Configuración local (contraseñas)
+.env
+
+# Compilados
+frontend/dist/
+
+# Datos y modelos (pueden contener información de estudiantes)
+ml/data/*
+!ml/data/.gitkeep
+ml/models/*
+!ml/models/.gitkeep
+ml/reports/*
+!ml/reports/.gitkeep
+.ipynb_checkpoints/
+
+# Datos reales de estudiantes (no se suben)
+docs/estudiantes_actuales.xlsx
